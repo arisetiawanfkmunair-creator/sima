@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17171A">
+  <meta name="color-scheme" content="dark light">
+  <title>SIMA SOBAT JEZ</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SIMA JEZ">
+  <script>
+    /* Tema diterapkan sebelum render agar tidak berkedip. Kunjungan pertama mengikuti sistem. */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('sima_tema'); } catch (e) {}
+      if (!t) t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,300..600,0..1,0&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="syncbar" id="syncbar" aria-hidden="true"></div>
+
+  <!-- Splash: hanya tampil < 1 detik bila belum ada cache -->
+  <div id="splash" role="status" aria-live="polite">
+    <div class="brand-mark"><span class="ms f">verified_user</span></div>
+    <div class="spin" aria-hidden="true"></div>
+    <span class="sr">Memuat aplikasi…</span>
+  </div>
+
+  <!-- Layar masuk / daftar -->
+  <main id="auth" class="hidden" aria-label="Masuk"></main>
+
+  <!-- Kerangka aplikasi SPA -->
+  <div id="app" class="app hidden">
+    <aside class="sb" id="sb" aria-label="Navigasi utama">
+      <div class="sb-brand">
+        <div class="brand-mark sm" id="sbLogo"><span class="ms f s18">verified_user</span></div>
+        <div class="bt grow" style="min-width:0">
+          <div class="t1 truncate" id="sbNama">SIMA SOBAT JEZ</div>
+          <div class="t2 truncate" id="sbSub">Admin Management</div>
+        </div>
+        <button class="ico-btn bt show-m" data-act="drawer" aria-label="Tutup menu"><span class="ms">close</span></button>
+      </div>
+      <nav class="sb-scroll" id="sbNav"></nav>
+      <div class="sb-foot">
+        <div class="quick">
+          <div class="flex center gap8">
+            <div class="ic-tile"><span class="ms">qr_code</span></div>
+            <div>
+              <div class="h-title" style="font-size:13px;line-height:18px">Verifikasi Cepat</div>
+              <div class="h-sub">Audit keaslian surat</div>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-block mt8" data-act="go" data-view="scanner"><span class="ms">center_focus_strong</span>Pindai Sekarang</button>
+        </div>
+        <div class="me-row" data-act="go" data-view="profil" role="button" tabindex="0" aria-label="Profil saya">
+          <div class="avatar" id="meAvatar">SA<span class="dot"></span></div>
+          <div class="me-txt grow" style="min-width:0">
+            <div class="fw5 truncate" id="meNama" style="font-size:13px">—</div>
+            <div class="xs muted truncate" id="meRole">—</div>
+          </div>
+          <button class="ico-btn me-out" data-act="logout" aria-label="Keluar" title="Keluar"><span class="ms s18">logout</span></button>
+        </div>
+      </div>
+    </aside>
+    <div class="drawer-bg" id="drawerBg" data-act="drawer"></div>
+
+    <div class="main">
+      <header class="top">
+        <button class="ico-btn menu-btn" data-act="drawer" aria-label="Buka menu"><span class="ms">menu</span></button>
+        <div class="top-ic" id="topIc"><span class="ms">space_dashboard</span></div>
+        <div class="top-title">
+          <div class="crumb"><span class="c0">Beranda</span><span class="c0">/</span><b id="topTitle">Dashboard</b></div>
+          <div class="greet" id="topGreet">Selamat datang</div>
+        </div>
+        <div class="search" id="searchBox">
+          <span class="ms">search</span>
+          <input id="gSearch" type="search" placeholder="Cari nomor dokumen, pemohon, atau jenis…" autocomplete="off" aria-label="Cari dokumen">
+          <kbd class="kbd">⌘K</kbd>
+          <div class="search-res hidden" id="searchRes" role="listbox"></div>
+        </div>
+        <div class="flex center gap4 shrink0" style="position:relative">
+          <button class="ico-btn show-m" data-act="searchM" aria-label="Cari"><span class="ms">search</span></button>
+          <button class="ico-btn hide-m" data-act="go" data-view="panduan" aria-label="Pusat panduan" title="Pusat panduan"><span class="ms">help_outline</span></button>
+          <button class="ico-btn" data-act="notif" aria-label="Notifikasi tindakan" title="Perlu tindakan"><span class="ms">notifications</span><span class="ping hidden" id="notifPing"></span></button>
+          <div class="theme-seg" role="group" aria-label="Mode tampilan">
+            <button data-act="tema" data-v="dark" aria-label="Mode gelap" title="Mode gelap"><span class="ms s16">dark_mode</span></button>
+            <button data-act="tema" data-v="light" aria-label="Mode terang" title="Mode terang"><span class="ms s16">light_mode</span></button>
+          </div>
+          <button class="btn btn-p hide-m" data-act="buatBaru" id="topCta"><span class="ms">add</span><span class="hide-t">Buat Pengajuan</span></button>
+          <div id="notifPop" class="notif-pop hidden" role="dialog" aria-label="Perlu tindakan"></div>
+        </div>
+      </header>
+
+      <div class="content" id="content">
+        <section class="view" id="v-dashboard" aria-label="Dashboard"></section>
+        <section class="view" id="v-buat" aria-label="Buat pengajuan"></section>
+        <section class="view" id="v-daftar" aria-label="Daftar pengajuan"></section>
+        <section class="view" id="v-kanban" aria-label="Papan kanban"></section>
+        <section class="view" id="v-detail" aria-label="Detail dokumen"></section>
+        <section class="view" id="v-scanner" aria-label="Scanner verifikasi"></section>
+        <section class="view" id="v-panduan" aria-label="Pusat panduan"></section>
+        <section class="view" id="v-laporan" aria-label="Laporan"></section>
+        <section class="view" id="v-set-jenis" aria-label="Jenis administrasi"></section>
+        <section class="view" id="v-set-alur" aria-label="Alur penandatangan"></section>
+        <section class="view" id="v-set-akun" aria-label="Persetujuan akun"></section>
+        <section class="view" id="v-set-wa" aria-label="Notifikasi WhatsApp"></section>
+        <section class="view" id="v-set-umum" aria-label="Pengaturan umum"></section>
+        <section class="view" id="v-profil" aria-label="Profil"></section>
+      </div>
+    </div>
+
+    <nav class="bnav" id="bnav" aria-label="Navigasi bawah"></nav>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <div id="modalRoot"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

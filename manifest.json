@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "SIMA SOBAT JEZ",
+  "short_name": "SIMA JEZ",
+  "description": "Sistem Informasi Manajemen Administrasi Sobat JEZ — pengajuan dokumen, tanda tangan digital berjenjang, dan verifikasi QR.",
+  "lang": "id",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "portrait-primary",
+  "background_color": "#17171A",
+  "theme_color": "#17171A",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
